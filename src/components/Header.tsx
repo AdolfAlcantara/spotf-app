@@ -6,6 +6,7 @@ import {RootObject,Song} from '../interfaces/tracks'
 import { RootState } from "../reducer/rootReducer";
 import NewReleasesComponent from "./NewReleases";
 import SongComponent from "./Song";
+import {Link} from "react-router-dom";
 
 const Header:React.FC<{token:string}> = ({token}) =>{
 
@@ -52,6 +53,7 @@ const Header:React.FC<{token:string}> = ({token}) =>{
             })
         }        
     }
+
     
     return(
         <div>
@@ -61,9 +63,9 @@ const Header:React.FC<{token:string}> = ({token}) =>{
                     <button onClick={(e:React.MouseEvent) => submitFromButton(e)}>Search</button>
                 </form>
                 <div>
-                    <a href={"https://accounts.spotify.com/authorize?client_id=98b26aae37f3433da592324222e084a9&response_type=token&redirect_uri=http://localhost:3000"} >
-                        <button>Login</button>
-                    </a>
+                    <Link to={'/library'}>
+                        <button>Library</button>
+                    </Link>
                 </div>
             </div>
             <NewReleasesComponent token={token}/>
