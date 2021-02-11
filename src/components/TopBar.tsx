@@ -1,12 +1,20 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { LoggedUserInfo, UserInfo } from "../interfaces/userInfo"
+import { UserInfo } from "../interfaces/userInfo"
 import {Link} from 'react-router-dom';
+import { LoggedUserInfo } from "../interfaces/user/models";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../reducer/rootReducer";
+import { Dispatch } from "redux";
+import { UserActions } from "../interfaces/user/actions";
+import { SetUserInfo } from "../actions/UserActions";
+import userUnknown from "../images/unknown_user.png";
 
 
 const TopBar:React.FC<{token:string,removeToken():void}> = ({token, removeToken}) =>{
 
-    const [userInfo, setUserInfo] = useState<LoggedUserInfo>({display_name:'',url_image:''});
+    const userData = useSelector((state:RootState)=>state.user);
+    const dispatch = useDispatch<Dispatch<UserActions>>();
 
 
     useEffect(() => {
@@ -18,10 +26,13 @@ const TopBar:React.FC<{token:string,removeToken():void}> = ({token, removeToken}
             }).then(({data})=>{
                 const userInfo = data;
                 console.log(userInfo);
-                setUserInfo({
-                    display_name:userInfo.display_name,
-                    url_image:userInfo.images[0].url
-                })
+                dispatch(
+                    SetUserInfo({
+                        display_name:userInfo.display_name,
+                        url_image:userInfo.images[0].url,
+                        userId:userInfo.id,
+                    })
+                )
             }).catch((err)=>{
                 //TODO define error messages
                 alert(err);
@@ -33,8 +44,12 @@ const TopBar:React.FC<{token:string,removeToken():void}> = ({token, removeToken}
         if(token!==''){
             return(
                 <div>
-                    <img src={userInfo.url_image} width="5%" height="5%"/>
-                    <p>{userInfo.display_name}</p>
+                    <img 
+                        src={userData.userInfo.url_image!==''?userData.userInfo.url_image:userUnknown} 
+                        width="5%" 
+                        height="5%"
+                    />
+                    <p>{userData.userInfo.display_name}</p>
                     <button onClick={removeToken}>Logout</button>
                 </div>
             )

@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { Dispatch } from "redux";
+import { SetToken } from "./actions/UserActions";
 import Header from "./components/Header";
 import TopBar from "./components/TopBar";
+import { UserActions } from "./interfaces/user/actions";
+import { RootState } from "./reducer/rootReducer";
 
-function App() {
+const App = () =>{
 
-  const [token, setToken] = useState('');
+  // const [token, setToken] = useState('');
+  const token = useSelector((state:RootState)=>state.user.token);
+  const dispatch = useDispatch<Dispatch<UserActions>>();
 
   const history = useHistory();
 
@@ -13,7 +20,8 @@ function App() {
     if(hash.length>1){
       hash.forEach((item)=>{
         if(item[0] === "access_token"){
-          setToken(item[1]);
+          // setToken(item[1]);
+          dispatch(SetToken(item[1]));
           return;
         }
       })
@@ -22,7 +30,8 @@ function App() {
   }, [])
 
   const removeToken = () =>{
-    setToken("");
+    // setToken("");
+    dispatch(SetToken(''));
     history.push("/")
   }
   

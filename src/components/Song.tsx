@@ -1,25 +1,28 @@
-import { Dispatch } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
+import { dbAddSong } from "../actions/LibraryActions";
 import { ADD_SONG, LibraryActions, REMOVE_SONG } from "../interfaces/library/actions";
 import {Song} from "../interfaces/tracks"
+import { RootState } from "../reducer/rootReducer";
 
 const SongComponent:React.FC<{song:Song}> = ({song})=>{
     
     const dispatch = useDispatch<Dispatch<LibraryActions>>();
-
+    const user = useSelector((state:RootState)=>state.user.userInfo);
 
 
     const addSong = (e:React.MouseEvent) =>{
         e.preventDefault();
-        dispatch({
-            type:ADD_SONG,
-            song:{
+        dbAddSong(
+            dispatch,
+            user.userId,
+            {
                 songId:song.id,
                 songTitle:song.name,
                 artist:song.artists,
                 image:song.image
             }
-        })
+        )
         song.isSaved=!song.isSaved;
     }
 
