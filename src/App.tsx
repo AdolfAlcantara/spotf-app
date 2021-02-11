@@ -1,33 +1,43 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import Header from "./components/Header";
-import NewReleasesComponent from "./components/NewReleases";
+import TopBar from "./components/TopBar";
 
 function App() {
 
   const [token, setToken] = useState('');
 
+  const history = useHistory();
+
   useEffect(() => {
-    let token = hash.access_token;
-    if (token) {
-      console.log(token);
-      setToken(token);
+    if(hash.length>1){
+      hash.forEach((item)=>{
+        if(item[0] === "access_token"){
+          setToken(item[1]);
+          return;
+        }
+      })
     }
+    history.push('/');
   }, [])
 
-  const hash = window.location.hash
+  const removeToken = () =>{
+    setToken("");
+    history.push("/")
+  }
+  
+  const hash:string[][] = window.location.hash
   .substring(1)
-  .split("&")
-  .reduce((initial:any, item)=> {
-    if (item) {
-      var parts = item.split("=");
-      initial[parts[0]] = decodeURIComponent(parts[1]);
-    }
-    return initial;
-  }, {});
+  .split("&").map((item)=>item.split("="));
+
 
   return (
     <div>
-      <Header token={token}/>
+      <TopBar token={token} removeToken={removeToken} />
+      {
+        (token !== '') ? <Header token={token}/> :null
+      }
+      
     </div>
   );
 }
