@@ -37,7 +37,7 @@ const Header:React.FC = () =>{
                         name:item.name,
                         artists:item.artists.map((artist)=>artist.name).join(','),
                         duration:item.duration_ms,
-                        image:item.album.images[item.album.images.length-1],
+                        image:item.album.images[1],
                         isSaved:librarySongs.find(x=>x.songId===item.id) !== undefined
                     }
                 })
@@ -52,27 +52,27 @@ const Header:React.FC = () =>{
 
     const mainPageLayout = () =>{
         if(token===''){
-            return(<div>
-                Login to enjoy music
+            return(
+            <div className="search_component_container">
+                <span>Login to enjoy music</span>
             </div>)
         }else{
             return(
-                <div>
-                    <div>
-                        <form>
-                            <input onChange={(e)=>setKetWord(e.target.value)} placeholder="Write a song name"/>
-                            <button onClick={(e:React.MouseEvent) => submitFromButton(e)}>Search</button>
+                <div className="search_component_container">
+                    <div style={{display:"flex"}}>
+                        <div style={{flexGrow:1}}></div>
+                        <form className="search_form_container">
+                            <input className="input_search" onChange={(e)=>setKetWord(e.target.value)} placeholder="Write a song name"/>
+                            <button className="search_button" onClick={(e:React.MouseEvent) => submitFromButton(e)}>Search</button>
                         </form>
-                        <div>
-                            <Link to={'/library'}>
-                                <button>Library</button>
-                            </Link>
-                        </div>
+                        <div style={{flexGrow:1}}></div>
                     </div>
                     <NewReleasesComponent token={token} librarySongs={librarySongs}/>
+                    <div className="search_results">
                     {
                         songs.map((_song)=><SongComponent key={_song.id} song={_song} />)
                     }
+                    </div>
                 </div>
             )
         }

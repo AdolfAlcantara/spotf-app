@@ -1,0 +1,36 @@
+
+.search_component_container{
+    margin-top: 25px;
+}
+
+.search_form_container{
+    display:flex;
+    flex-grow: 2;
+}
+
+.input_search{
+    border: 2px solid $green;
+    border-radius: 5px;
+    height: 45px;
+    width: 100%;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+button:focus,
+input:focus{
+    outline: none;
+}
+
+.search_button{
+    @extend .rounded_green_button;
+    border-radius: 0;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.search_results{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}

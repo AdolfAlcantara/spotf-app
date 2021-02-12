@@ -36,15 +36,17 @@ const SongComponent:React.FC<{song:Song}> = ({song})=>{
     }
 
     return(
-        <div>
-            <img width={song.image.width} src={song.image.url} height={song.image.height}/>
-            <p>{song.name}</p>
-            <p>{song.albumName}</p>
-            <p>{song.artists}</p>
-            <p>{song.duration/1000/60}</p>
+        <div className="search_item">
+            <div className="result_song_image">
+                <img width={song.image.width*0.5} src={song.image.url} height={song.image.height*0.5}/>
+            </div>
+            <p className="result_song_name result_text">{song.name}</p>
+            <p className="result_song_albumName result_text">{song.albumName}</p>
+            <p className="result_song_artists result_text">{song.artists}</p>
+            <p className="result_song_duration result_text">{Math.round(song.duration/1000/60).toString()} min</p>
             {
-                song.isSaved ? <button onClick={(e:React.MouseEvent)=>removeSong(e)}>Remove</button> :
-                <button onClick={(e:React.MouseEvent)=>addSong(e)}>Save</button>
+                song.isSaved ? <button className="result_song_remove_button" onClick={(e:React.MouseEvent)=>removeSong(e)}>Remove</button> :
+                <button className="result_song_add_button" onClick={(e:React.MouseEvent)=>addSong(e)}>Save</button>
             }
         </div>
     )

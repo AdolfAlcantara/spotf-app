@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import AppRouter from './router/appRouter';
 import {configStore} from './store/configStore';
+import './style/style.scss';
 
 const store = configStore();
 

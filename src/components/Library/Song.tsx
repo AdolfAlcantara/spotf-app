@@ -18,13 +18,13 @@ const Song:React.FC<{song:SongModel}> = ({song}) =>{
     }
 
     return(
-        <div>
+        <div className="library_item">
             <img src={song.image.url} 
                 width={song.image.width}
                 height={song.image.height}/>
-            <p>{song.songTitle}</p>
-            <p>{song.artist}</p>
-            <button onClick={(e)=>remove(e)}>Remove from library</button>
+            <p className="library_songs_name">{song.songTitle}</p>
+            <p className="library_songs_artists">{song.artist}</p>
+            <button className="rounded_green_button" onClick={(e)=>remove(e)}>Remove from library</button>
         </div>
     )
 }

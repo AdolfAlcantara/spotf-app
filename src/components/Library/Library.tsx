@@ -32,25 +32,27 @@ const LibraryComponent = () =>{
         if(userId !== ''){
             return(
                 <>
-                    <h1>My library</h1>
-                    <div>
+                    {/* <div>
                         <Link to={'/'}>
                             <button>Search</button>
                         </Link>
-                    </div>
+                    </div> */}
                     <SongList songs={songs}/>
                 </>
             )
         }else{
-            return(<p>Please logging to start creating your library</p>);
+            return(<span>Please logging to start creating your library</span>);
         }
     }
     
 
     return(
-        <div>
-            {isUserLogged()}
-        </div>
+        <>
+            <h1 className="library_header">My library</h1>
+            <div>
+                {isUserLogged()}
+            </div>
+        </>
     )
     
 }
