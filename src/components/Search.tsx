@@ -42,7 +42,6 @@ const Header:React.FC = () =>{
                     }
                 })
                 setSongs(_songs);
-                console.log(_songs);
             }).catch((err)=>{
                 alert("An error ocurred while retrieving data.\nError:"+err)
             })

@@ -22,10 +22,8 @@ const NewReleasesComponent:React.FC<{token:string,librarySongs:Song[]}> = ({toke
                     'limit':5
                 }
             }).then(({ data })=>{
-                console.log('then start')
                 const newReleases = data;
                 const newAlbums = newReleases.albums.items.map((a) => ({ id: a.id, image: a.images[1] }));
-                console.log('bf newSongs')
                 getNewSongs(newAlbums).then(allNewSongs => {
                     setSongs(allNewSongs)
                 }).catch(() => {

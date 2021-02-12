@@ -38,19 +38,15 @@ export const dbRemoveSong = (dispatch:Dispatch<LibraryActions>,userId:string, so
 }
 
 export const dbSetSongs = (dispatch:Dispatch<LibraryActions>,userId:string) =>{
-    console.log()
     database.ref(`libraries/${userId}`)
         .once('value')
         .then((snapshot)=>{
-            // console.log(snapshot.val())
             const songs:Song[] = []
            snapshot.forEach((child1)=>{
-            console.log('child1',child1.val())
                child1.forEach((child2)=>{
                    songs.push(child2.val());
                })
            });
-        //    console.log(songs);
            dispatch(SetSongs(songs));
         }).catch((err)=>{
             ///TODO define errors

@@ -49,10 +49,8 @@ const TopBar:React.FC = () =>{
                 }
             }).then(({data})=>{
                 const userInfo = data;
-                console.log(userInfo);
                 const re = /[._!$#-+]/g;
                 let userId = userInfo.id;
-                console.log(userId);
                 const allMatches = userId.match(re);
                 if(allMatches){
                     const matches = new Set(allMatches)
