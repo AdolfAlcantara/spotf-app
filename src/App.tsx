@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Dispatch } from "redux";
 import { SetToken } from "./actions/UserActions";
-import Header from "./components/Header";
+import Search from "./components/Search";
 import TopBar from "./components/TopBar";
 import { UserActions } from "./interfaces/user/actions";
 import { RootState } from "./reducer/rootReducer";
@@ -43,7 +43,7 @@ const App = () =>{
   return (
     <div>
       {
-        (token !== '') ? <Header/> :null
+        (token !== '') ? <Search/> :null
       }
     </div>
   );

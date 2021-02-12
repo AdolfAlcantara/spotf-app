@@ -81,21 +81,40 @@ const TopBar:React.FC = () =>{
     const returnProfile = () =>{
         if(token!==''){
             return(
-                <div>
-                    <img 
-                        src={userInfo.url_image} 
-                        width="5%" 
-                        height="5%"
-                    />
-                    <p>{userInfo.display_name}</p>
-                    <button onClick={removeToken}>Logout</button>
+                <div className="logged_bar">
+                    <div className="user_info">
+                        <img
+                            className="profile_pic" 
+                            src={userInfo.url_image} 
+                            // width="5%" 
+                            // height="5%"
+                        />
+                        <p className="user_name">{userInfo.display_name}</p>
+                    </div>
+                    <div className="action_buttons_container">
+                        <div className="nav_buttons">
+                            <Link to={'/library'}>
+                                <button className="rounded_green_button">Library</button>
+                            </Link>
+                            <Link to={'/'}>
+                                <button className="rounded_green_button">Search</button>
+                            </Link>
+                        </div>
+                        <div className="logout_button">
+                            <button className="rounded_green_button" onClick={removeToken} >
+                                Logout
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )
         }else{
             return(
-                <div>
+                <div className="login_bar">
                     <a href={"https://accounts.spotify.com/authorize?client_id=98b26aae37f3433da592324222e084a9&response_type=token&redirect_uri=http://localhost:3000"} >
-                        <button>Login</button>
+                        <button className="rounded_green_button">    
+                            <span className="button_span">Login</span>
+                        </button>
                     </a>
                 </div>  
             )
@@ -103,13 +122,7 @@ const TopBar:React.FC = () =>{
     }
 
 
-    return(
-        <>
-            {
-                returnProfile()
-            }
-        </>
-    )
+    return returnProfile();
 }
 
 export default TopBar;

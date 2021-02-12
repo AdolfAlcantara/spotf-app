@@ -1,0 +1,53 @@
+.search_item{
+    display: flex;
+    flex-direction: row;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+.result_song_image{
+    display: flex;
+    flex-grow: 1;
+    flex-basis: 0;
+    justify-content: center;
+}
+
+.result_song_name{
+    flex-grow: 1;
+    flex-basis: 0;
+
+}
+
+.result_song_albumName{
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.result_song_duration{
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.result_song_artists{
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.result_song_add_button{
+    @extend .rounded_green_button;
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.result_song_remove_button{
+    @extend .rounded_red_button;
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.result_text{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 5px;
+    font-size:16px;
+}

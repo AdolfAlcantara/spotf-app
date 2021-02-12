@@ -33,12 +33,15 @@ const NewRelease:React.FC<{song:NewAlbumSong}> = ({song}) =>{
 
 
     return(
-        <div>
+        <div className="new_released_item">
             <img src={song.image.url} width={song.image.width} height={song.image.height}/>
-            <h1>{song.songName}</h1>
+            <div className="release_songs_name">{song.songName}</div>
+            <div className="release_songs_artists">{song.artists}</div>
             {
-                song.isSaved ? <button onClick={(e)=>removeSong(e)}>Remove from library</button> :
-                <button onClick={(e)=>addSong(e)}>Add to library</button>
+                song.isSaved ? <button className="rounded_red_button" onClick={(e)=>removeSong(e)}>Remove from library</button> :
+                <button className="rounded_green_button" onClick={(e)=>addSong(e)}>
+                    Add to library
+                </button>
             }
         </div>
     )

@@ -24,7 +24,7 @@ const NewReleasesComponent:React.FC<{token:string,librarySongs:Song[]}> = ({toke
             }).then(({ data })=>{
                 console.log('then start')
                 const newReleases = data;
-                const newAlbums = newReleases.albums.items.map((a) => ({ id: a.id, image: a.images[a.images.length-1] }));
+                const newAlbums = newReleases.albums.items.map((a) => ({ id: a.id, image: a.images[1] }));
                 console.log('bf newSongs')
                 getNewSongs(newAlbums).then(allNewSongs => {
                     setSongs(allNewSongs)
@@ -65,7 +65,7 @@ const NewReleasesComponent:React.FC<{token:string,librarySongs:Song[]}> = ({toke
 
 
     return(
-        <div>
+        <div className="new_releases_container">
             {
                 songs.map((_song:NewAlbumSong)=><NewRelease key={_song.songId} song={_song}/>)
             }

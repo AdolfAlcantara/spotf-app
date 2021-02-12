@@ -1,5 +1,5 @@
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import Header from '../components/Header';
+import Search from '../components/Search';
 import LibraryComponent from '../components/Library/Library';
 import TopBar from '../components/TopBar';
 
@@ -9,7 +9,7 @@ const AppRouter = () =>{
     <BrowserRouter>
         <TopBar/>
         <Switch>
-            <Route path="/" exact={true} component={Header}/>
+            <Route path="/" exact={true} component={Search}/>
             <Route path="/library" component={LibraryComponent}/>
         </Switch>
     </BrowserRouter>)
