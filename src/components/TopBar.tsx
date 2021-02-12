@@ -20,7 +20,8 @@ const TopBar:React.FC = () =>{
     const dispatch = useDispatch<Dispatch<UserActions|LibraryActions>>();
     const history = useHistory();
 
-    const clientId = process.env.REACT_APP_CLIENT_ID
+    const clientId = process.env.REACT_APP_CLIENT_ID;
+    const returnUrl = process.env.REACT_APP_RETURN_URL;
     
     const hash:string[][] = window.location.hash
     .substring(1)
@@ -113,7 +114,7 @@ const TopBar:React.FC = () =>{
         }else{
             return(
                 <div className="login_bar">
-                    <a href={`https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=http://localhost:3000`} >
+                    <a href={`https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${returnUrl}`} >
                         <button className="rounded_green_button">    
                             <span className="button_span">Login</span>
                         </button>
