@@ -29,4 +29,14 @@
 span{
   font-size: medium;
   font-family: Arial, Helvetica, sans-serif;
+  color: white;
+}
+
+body{
+  background-color: $dark-gray;
+}
+
+h1,
+p{
+  color: white;
 }
