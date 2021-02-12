@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { AlbumTracks, NewAlbumSong } from "../interfaces/albumTracks";
+import { Song } from "../interfaces/library/models";
 import {NewReleases, Image as AlbumImage} from '../interfaces/newAlbums';
 import NewRelease from './NewRelease';
 
 
-const NewReleasesComponent:React.FC<{token:string}> = ({token}) =>{
+const NewReleasesComponent:React.FC<{token:string,librarySongs:Song[]}> = ({token,librarySongs}) =>{
 
     const [songs,setSongs] = useState<NewAlbumSong[]>([]);
 
@@ -55,7 +56,7 @@ const NewReleasesComponent:React.FC<{token:string}> = ({token}) =>{
                             songName: _newSongs.items[0].name,
                             artists: _newSongs.items[0].artists.map((a)=>a.name).join(''),
                             image: album.image,
-                            isSaved: false
+                            isSaved: librarySongs.find(x=>x.songId===_newSongs.items[0].id) !== undefined
                         }
                     })
             })

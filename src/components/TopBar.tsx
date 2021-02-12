@@ -1,21 +1,42 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { UserInfo } from "../interfaces/userInfo"
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import { LoggedUserInfo } from "../interfaces/user/models";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reducer/rootReducer";
 import { Dispatch } from "redux";
 import { UserActions } from "../interfaces/user/actions";
-import { SetUserInfo } from "../actions/UserActions";
+import { SetToken, SetUserInfo } from "../actions/UserActions";
 import userUnknown from "../images/unknown_user.png";
+import { LibraryActions } from "../interfaces/library/actions";
+import { dbSetSongs } from "../actions/LibraryActions";
 
 
-const TopBar:React.FC<{token:string,removeToken():void}> = ({token, removeToken}) =>{
+const TopBar:React.FC = () =>{
 
-    const userData = useSelector((state:RootState)=>state.user);
-    const dispatch = useDispatch<Dispatch<UserActions>>();
+    const {token,userInfo} = useSelector((state:RootState)=>state.user);
+    // const userData = useSelector((state:RootState)=>state.user);
+    const dispatch = useDispatch<Dispatch<UserActions|LibraryActions>>();
+    const history = useHistory();
+    
+    const hash:string[][] = window.location.hash
+    .substring(1)
+    .split("&").map((item)=>item.split("="));
+  
 
+    useEffect(() => {
+        if(hash.length>1){
+          hash.forEach((item)=>{
+            if(item[0] === "access_token"){
+              // setToken(item[1]);
+              dispatch(SetToken(item[1]));
+              return;
+            }
+          })
+        }
+        history.push('/');
+      }, [])
 
     useEffect(() => {
         if(token !== ""){
@@ -26,13 +47,24 @@ const TopBar:React.FC<{token:string,removeToken():void}> = ({token, removeToken}
             }).then(({data})=>{
                 const userInfo = data;
                 console.log(userInfo);
+                const re = /[._!$#-+]/g;
+                let userId = userInfo.id;
+                console.log(userId);
+                const allMatches = userId.match(re);
+                if(allMatches){
+                    const matches = new Set(allMatches)
+                    matches.forEach((match)=>{
+                        userId = userId.replace(RegExp(`[${match}]`,'g'),match.charCodeAt(0).toString())
+                    })
+                }
                 dispatch(
                     SetUserInfo({
                         display_name:userInfo.display_name,
-                        url_image:userInfo.images[0].url,
-                        userId:userInfo.id,
+                        url_image:userInfo.images.length>0?userInfo.images[0].url:userUnknown,
+                        userId:userId,
                     })
                 )
+                dbSetSongs(dispatch,userId);
             }).catch((err)=>{
                 //TODO define error messages
                 alert(err);
@@ -40,16 +72,22 @@ const TopBar:React.FC<{token:string,removeToken():void}> = ({token, removeToken}
         }
     }, [token])
 
+    const removeToken = () =>{
+        // setToken("");
+        dispatch(SetToken(''));
+        history.push("/")
+      }
+
     const returnProfile = () =>{
         if(token!==''){
             return(
                 <div>
                     <img 
-                        src={userData.userInfo.url_image!==''?userData.userInfo.url_image:userUnknown} 
+                        src={userInfo.url_image} 
                         width="5%" 
                         height="5%"
                     />
-                    <p>{userData.userInfo.display_name}</p>
+                    <p>{userInfo.display_name}</p>
                     <button onClick={removeToken}>Logout</button>
                 </div>
             )

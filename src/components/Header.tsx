@@ -8,16 +8,11 @@ import NewReleasesComponent from "./NewReleases";
 import SongComponent from "./Song";
 import {Link} from "react-router-dom";
 
-const Header:React.FC<{token:string}> = ({token}) =>{
+const Header:React.FC = () =>{
 
     const [keyword,setKetWord] = useState('');
     const [songs,setSongs] = useState<Song[]>([]);
-    const _songs = useSelector((state:RootState)=>state.library.songs);
-
-    useEffect(() => {
-        console.log(_songs);
-    }, [_songs])
-
+    const {token,librarySongs} = useSelector((state:RootState)=>({token:state.user.token,librarySongs:state.library.songs}));
 
 
     const submitFromButton = (e:React.MouseEvent)=>{
@@ -43,7 +38,7 @@ const Header:React.FC<{token:string}> = ({token}) =>{
                         artists:item.artists.map((artist)=>artist.name).join(','),
                         duration:item.duration_ms,
                         image:item.album.images[item.album.images.length-1],
-                        isSaved:false
+                        isSaved:librarySongs.find(x=>x.songId===item.id) !== undefined
                     }
                 })
                 setSongs(_songs);
@@ -54,26 +49,37 @@ const Header:React.FC<{token:string}> = ({token}) =>{
         }        
     }
 
-    
-    return(
-        <div>
-            <div>
-                <form>
-                    <input onChange={(e)=>setKetWord(e.target.value)} placeholder="Write a song name"/>
-                    <button onClick={(e:React.MouseEvent) => submitFromButton(e)}>Search</button>
-                </form>
+
+    const mainPageLayout = () =>{
+        if(token===''){
+            return(<div>
+                Login to enjoy music
+            </div>)
+        }else{
+            return(
                 <div>
-                    <Link to={'/library'}>
-                        <button>Library</button>
-                    </Link>
+                    <div>
+                        <form>
+                            <input onChange={(e)=>setKetWord(e.target.value)} placeholder="Write a song name"/>
+                            <button onClick={(e:React.MouseEvent) => submitFromButton(e)}>Search</button>
+                        </form>
+                        <div>
+                            <Link to={'/library'}>
+                                <button>Library</button>
+                            </Link>
+                        </div>
+                    </div>
+                    <NewReleasesComponent token={token} librarySongs={librarySongs}/>
+                    {
+                        songs.map((_song)=><SongComponent key={_song.id} song={_song} />)
+                    }
                 </div>
-            </div>
-            <NewReleasesComponent token={token}/>
-            {
-                songs.map((_song)=><SongComponent key={_song.id} song={_song} />)
-            }
-        </div>
-    )
+            )
+        }
+    }
+
+    
+    return mainPageLayout();
 }
 
 export default Header;

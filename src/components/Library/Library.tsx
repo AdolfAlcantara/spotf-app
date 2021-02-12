@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {RootState} from "../../reducer/rootReducer";
 import SongList from "./SongList";
 import {Link} from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Dispatch } from "redux";
 import { LibraryActions } from "../../interfaces/library/actions";
 import { dbSetSongs } from "../../actions/LibraryActions";
@@ -21,21 +21,36 @@ const LibraryComponent = () =>{
                             }));
     const dispatch = useDispatch<Dispatch<LibraryActions>>();
 
+
     useEffect(() => {
-        dbSetSongs(dispatch,userId)
-        
+        if(userId !== '' && songs.length==0){
+            dbSetSongs(dispatch,userId);
+        }
     }, [])
 
+    const isUserLogged = () =>{
+        if(userId !== ''){
+            return(
+                <>
+                    <h1>My library</h1>
+                    <div>
+                        <Link to={'/'}>
+                            <button>Search</button>
+                        </Link>
+                    </div>
+                    <SongList songs={songs}/>
+                </>
+            )
+        }else{
+            return(<p>Please logging to start creating your library</p>);
+        }
+    }
+    
+
     return(
-        <>
-            <h1>My library</h1>
-            <div>
-                <Link to={'/'}>
-                    <button>Search</button>
-                </Link>
-            </div>
-            <SongList songs={songs}/>
-        </>
+        <div>
+            {isUserLogged()}
+        </div>
     )
     
 }

@@ -3,8 +3,6 @@ import {default as SingleSong} from "./Song"
 
 const SongList:React.FC<{songs:Song[]}> = ({songs}) =>{
 
-    console.log(songs);
-
     return(
         <div>
             {

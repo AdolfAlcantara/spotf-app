@@ -12,41 +12,39 @@ const App = () =>{
 
   // const [token, setToken] = useState('');
   const token = useSelector((state:RootState)=>state.user.token);
-  const dispatch = useDispatch<Dispatch<UserActions>>();
+  // const dispatch = useDispatch<Dispatch<UserActions>>();
 
-  const history = useHistory();
+  // const history = useHistory();
 
-  useEffect(() => {
-    if(hash.length>1){
-      hash.forEach((item)=>{
-        if(item[0] === "access_token"){
-          // setToken(item[1]);
-          dispatch(SetToken(item[1]));
-          return;
-        }
-      })
-    }
-    history.push('/');
-  }, [])
+  // useEffect(() => {
+  //   if(hash.length>1){
+  //     hash.forEach((item)=>{
+  //       if(item[0] === "access_token"){
+  //         // setToken(item[1]);
+  //         dispatch(SetToken(item[1]));
+  //         return;
+  //       }
+  //     })
+  //   }
+  //   history.push('/');
+  // }, [])
 
-  const removeToken = () =>{
-    // setToken("");
-    dispatch(SetToken(''));
-    history.push("/")
-  }
+  // const removeToken = () =>{
+  //   // setToken("");
+  //   dispatch(SetToken(''));
+  //   history.push("/")
+  // }
   
-  const hash:string[][] = window.location.hash
-  .substring(1)
-  .split("&").map((item)=>item.split("="));
+  // const hash:string[][] = window.location.hash
+  // .substring(1)
+  // .split("&").map((item)=>item.split("="));
 
 
   return (
     <div>
-      <TopBar token={token} removeToken={removeToken} />
       {
-        (token !== '') ? <Header token={token}/> :null
+        (token !== '') ? <Header/> :null
       }
-      
     </div>
   );
 }
