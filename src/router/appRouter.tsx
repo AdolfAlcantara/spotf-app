@@ -1,13 +1,15 @@
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import App from '../App';
+import Header from '../components/Header';
 import LibraryComponent from '../components/Library/Library';
+import TopBar from '../components/TopBar';
 
 const AppRouter = () =>{
 
     return(
     <BrowserRouter>
+        <TopBar/>
         <Switch>
-            <Route path="/" exact={true} component={App}/>
+            <Route path="/" exact={true} component={Header}/>
             <Route path="/library" component={LibraryComponent}/>
         </Switch>
     </BrowserRouter>)

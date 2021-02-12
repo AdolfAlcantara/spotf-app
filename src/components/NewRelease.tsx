@@ -1,32 +1,33 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
+import { dbAddSong, dbRemoveSong } from "../actions/LibraryActions";
 import { NewAlbumSong } from "../interfaces/albumTracks"
 import { ADD_SONG, LibraryActions, REMOVE_SONG } from "../interfaces/library/actions";
+import { RootState } from "../reducer/rootReducer";
 
 const NewRelease:React.FC<{song:NewAlbumSong}> = ({song}) =>{
 
     const dispatch = useDispatch<Dispatch<LibraryActions>>();
+    const user = useSelector((state:RootState)=>state.user.userInfo);
 
     const addSong = (e:React.MouseEvent) =>{
         e.preventDefault();
-        dispatch({
-            type:ADD_SONG,
-            song:{
+        dbAddSong(
+            dispatch,
+            user.userId,
+            {
                 songId:song.songId,
                 songTitle:song.songName,
                 artist:song.artists,
                 image:song.image
             }
-        })
+        );
         song.isSaved=!song.isSaved;
     }
 
     const removeSong = (e:React.MouseEvent) =>{
         e.preventDefault();
-        dispatch({
-            type:REMOVE_SONG,
-            songId:song.songId
-        })
+        dbRemoveSong(dispatch,user.userId,song.songId);
         song.isSaved=!song.isSaved;
     }
 

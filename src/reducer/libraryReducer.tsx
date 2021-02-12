@@ -12,8 +12,10 @@ const LibraryReducer = (state = LibraryInitialState, action:LibraryActions):Libr
             return {songs:[...state.songs,action.song]}
         case REMOVE_SONG:
             return {songs:state.songs.filter(x=>x.songId!==action.songId)};
-        case "SET_SONGS":
+        case "SET_SONGS":{
+            console.log(action.songs);
             return {songs:action.songs}
+        }
         default:
             return state;
     }

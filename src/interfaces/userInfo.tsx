@@ -24,8 +24,4 @@ export interface UserInfo {
     uri: string;
 }
 
-export interface LoggedUserInfo{
-    display_name:string;
-    url_image:string;
-}
 
